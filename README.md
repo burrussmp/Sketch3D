@@ -1,6 +1,15 @@
 # Augmented-Reality-Sketch-Authoring
 **Proposal:** Begin replicating approach to authoring 3D objects by sketching basic geometric shapes [1]. To do so, I have developed a simpler version based on [2] where a pre-drawn "front" and "side" face sketch are used to reconstruct a 3D object. The information necessary to construct the 3D object is done offline by a server code written in Python. The server sends the information to construct the 3D object to an phone running the AR application which creates the 3D object. Whenever the target image is detected by the AR application, the 3D object is constructed. The user is also presented with various functionality to scale, rotate, and translate the object for better viewing. These functionalities are controlled by button's on the phone screen.
 
+## Getting started with the code
+1. Clone the repository
+2. Open up unity hub and add project clicking on the folder. Open clicking on the project Unity should resolve the packages and import necessary scripts.
+3. In Unity, open up File/Build Settings/ and switch to Android platform.
+4. In terminal, get the public IP address of the machine (On Ubuntu this can be found with ```ifconfig``` I think it is ```ipconfig``` on Windows devices)
+5. In server.py and in /Assets/AddSketch.cs change the IP addresss to the one discovered in the last command. There is a single line to change in both. Control-F "8080" and you will find the line.
+6. Run ```python3 server.py``` to get the server up and going.
+7. In Unity, click "File/Build and Run" and install the project.apk into the connected Android device.
+
 ## Background
 Sketch based authoring allows a user to add elements, modify existing elements, and manipulate 3D models using sketches which are automatically rendered as 3D objects.
 
