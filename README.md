@@ -40,6 +40,10 @@ A demo video can be found [here](https://drive.google.com/drive/folders/1Ye07AEK
 ## Example 4
 ![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex4.png)
 ![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex4_3d.png)
+## Example 5
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex5.png)
+
+Created using the triangle as the side and the square as the front face.
 
 ## Discussion
 
