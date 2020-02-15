@@ -28,13 +28,47 @@ The application has four main components
 A demo video can be found [here](https://drive.google.com/drive/folders/1Ye07AEKM2lWnVQWmO6ogAaoMGznK2UzF?usp=sharing)
 
 ## Results
+## Example 1
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex1.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex1_3d.png)
+## Example 2
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex2.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex2_3d.png)
+## Example 3
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex3.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex3_3d.png)
+## Example 4
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex4.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex4_3d.png)
 
-### Image Understanding
-Requires image enhacement, object recognition, annotation recognition, stroke interpretation
-### Structure Reconstruction
-2D beautification, geoemtric reconstruction, 3D beauitfication
-### Scene Composition
-Model composition and simulation composition
+## Discussion
+
+### System
+Upon detecting the target image, the client (AR) application requests for information to construct a 3D object. The server processes static images of the front and side faces and produces a description of the faces to construct. This information is sent to the AR application which constructs the 3D object and displays the object. The user can interact with the 3D construction using buttons that allow the user to rotate, scale, and translate the object for better viewing. Once the target image leaves the view of the camera, the 3D object is destroyed. Upon seeing the target again, the server rotates the content being served to the client and displays the next 3D object. Currently, there are four 3D objects created from sketches of the front and side faces shown above.
+
+### Face construction
+The most crucial part of the application is the face reconstruction which is performed by the server using openCV image processing. The client constructs the 3D object using a series of co-routines that first communicate to the server to get the information of the object, construct the meshes, and then register the 3D object in the augmented environment.
+
+To construct the faces, the following procedure is followed:
+
+1. Read in image of side and face and gray scale.
+2. Use OpenCV good features to track algorithm used to detect corners in an image
+3. Use OpenCV convexHull() which performs Sklansky’s algorithm to find the convex hull given a set of points
+4. Normalize the dimensions of the side and front convex hull.
+5. Add a z axis to the side and front convex hull and then rotate the top by 90 degrees along the x axis.
+6. Match the bottom of the front hull which is defined by the two lowest vertices to the closest two vertices of the side.
+7. Create the back side which is essentially a copy of the front side, scaled by whatever change occurs in the side, and translated according to the length of the side.
+8. Construct the faces so that each face is defined by a set of points in a counter-clock wise direction based on how a viewer would look at the faces where the points are defined by the front and back face of the object.
+9. Scale the object down so that it is realistically rendered in unity.
+
+
+### Limitations
+
+Example 4 above is an example of the limitation. If the feature detector does not sufficiently cover the front face, then it is possible that the 3D model is incorrectly rendered. The above example shows how a lack of detecting points resulted in the 3D reconstruction of an incomplete cylinder.
+
+The system also only supports simple 3D objects and requires that the sketches be provided statically. A server processes the static images and sends the images to the user. The server rotates between displaying a new 3D object each time the target image is detected One major limitation is the type of sides that can be constructed. 
+
+Only sides with four and three points are currently supported (for example a rectangle and a triangle).
 
 ## Possible Future Additions
 1. Support multiple authored objects
@@ -42,9 +76,8 @@ Model composition and simulation composition
 3. Possibly add textures and colors
 4. Add the ability to make things hollow using marks like 'H' on the object
 5. Add properties to objects like friction
-
-
-
+6. Dynamically process images and not just serve static content.
+7. Use a segmentation neural network to detect corners.
 
 # Citations
 [1] Banu, Simona Maria. "Augmented Reality system based on sketches for geometry education." 2012 International Conference on E-Learning and E-Technologies in Education (ICEEE). IEEE, 2012.
