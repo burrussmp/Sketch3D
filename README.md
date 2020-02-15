@@ -21,6 +21,13 @@ The application has four main components
 
 3. Button interface to interact with the 3D constructed image (rotate, scale, and translate).
 
+4. Examples of changing up the side and the front.
+
+
+## Demo Video
+A demo video can be found [here](https://drive.google.com/drive/folders/1Ye07AEKM2lWnVQWmO6ogAaoMGznK2UzF?usp=sharing)
+
+## Results
 
 ### Image Understanding
 Requires image enhacement, object recognition, annotation recognition, stroke interpretation
