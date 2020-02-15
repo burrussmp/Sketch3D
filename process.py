@@ -65,13 +65,14 @@ def match_front_face(hull_top,hull_side):
         idx_side_back = np.array([idx_side_back[0],idx_side_back[-1]])
         scale_x =  np.abs(hull_side_original[idx_side_back[0],0]-hull_side_original[idx_side_back[1],0]) / np.abs(hull_side_original[idx_side_front[0],0]-hull_side_original[idx_side_front[1],0])
         #idx_side_back2 = np.sort(np.argsort(hull_side[:,2])[0:2]
+        hull_back *= scale_x
         hull_back[idx_top,2] = hull_side[idx_side_back[::-1],2]
         idx_other = np.delete(np.arange(hull_top.shape[0]),idx_top,axis=0)
         hull_back[idx_other,2] = np.max(hull_side[:,2]) # translate remaining points
+
     else:
         hull_back[:,2] = hull_side[idx_side_back[0],2]
         hull_back[:,0:2] = np.mean(hull_top[:,0:2],axis=0)
-        print(hull_back)
 
     return hull_top,hull_side,hull_back
 
