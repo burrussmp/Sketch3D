@@ -19,6 +19,7 @@ public class AddSketch : MonoBehaviour,
     public bool inSecond;
     public GameObject gameObject;
     public static bool detected;
+
     void Start()
     {
 		mTrackableBehaviour = GetComponent<TrackableBehaviour>();
@@ -167,11 +168,15 @@ public class AddSketch : MonoBehaviour,
             inFirst = true;
             inSecond = true;
 			// Play audio when target is found
-            UnityWebRequest www = UnityWebRequest.Get("http://10.66.129.3:8080");
+            UnityWebRequest www = UnityWebRequest.Get("http://10.0.0.118:8080");
 			yield return www.SendWebRequest();
 
-            if(www.isNetworkError || www.isHttpError) {
-                Debug.Log(www.error);
+            Debug.Log(www.responseCode);
+            if(www.isNetworkError || www.isHttpError || www.responseCode == 500) {
+                GameObject myObject = GameObject.Find("ARCamera");
+                myObject.GetComponent<Buttons>().showError("Need to Capture Front and Side!");
+                yield return new WaitForSeconds(3);
+                myObject.GetComponent<Buttons>().clearError();
             }
             else {
                 // Show results as text
@@ -196,16 +201,23 @@ public class AddSketch : MonoBehaviour,
                     myList.Add(Convert.ToSingle(num_samples));
                     list.Add(myList);
                 }
-                                // foreach(var j in list){
-                //     foreach(var i in j){
-                //         Debug.Log(i);
-                //     }
-                // }
                 mList = list;
                 inFirst = false;
             }
 
         }
+    private Texture2D MakeTex( int width, int height, Color col )
+    {
+        Color[] pix = new Color[width * height];
+        for( int i = 0; i < pix.Length; ++i )
+        {
+            pix[ i ] = col;
+        }
+        Texture2D result = new Texture2D( width, height );
+        result.SetPixels( pix );
+        result.Apply();
+        return result;
+    }
     }
 
 
