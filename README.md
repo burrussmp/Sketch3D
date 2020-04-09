@@ -83,6 +83,12 @@ The system also only supports simple 3D objects and requires that the sketches b
 
 Only sides with four and three points are currently supported (for example a rectangle and a triangle).
 
+## Final Project: Not static content, textures, colors, annotations
+1. Ability to colors with annotations
+2. Use a neural network to detect specific annotations
+3. Make it hollow using an annotation
+4. Support real-time generation of objects using camera on phone to capture image, send to server, server processes, and sends it back... requires taking image of front and side
+
 ## Possible Future Additions
 1. Support multiple authored objects
 2. Ability to edit the authored models
