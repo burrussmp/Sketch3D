@@ -17,6 +17,7 @@ public class Buttons : MonoBehaviour
     public int bboxY;
     public bool isError = false;
     public string mError = "";
+    public float rotX,rotY,rotZ = 0.0f;
     void OnGUI()
     {
         GUIStyle currentStyleSideButton = InitStyles(sideCaptured);
@@ -53,7 +54,7 @@ public class Buttons : MonoBehaviour
                 } else if (selGridInt == 1){
                     Scale(1,-0.05f);
                 } else if (selGridInt == 2){
-                    Rotate(1,-10f);
+                    Rotate(1,-15f);
                 }
             }
             if (GUI.Button(new Rect(x+width+padding,y,width,height),"+X Axis")){
@@ -62,7 +63,7 @@ public class Buttons : MonoBehaviour
                 } else if (selGridInt == 1){
                     Scale(1,0.05f);
                 } else if (selGridInt == 2){
-                    Rotate(1,10f);
+                    Rotate(1,15f);
                 }
             }
             if (GUI.Button(new Rect(x,y+height+padding,width,height),"-Y Axis")){
@@ -71,7 +72,7 @@ public class Buttons : MonoBehaviour
                 } else if (selGridInt == 1){
                     Scale(2,-0.05f);
                 } else if (selGridInt == 2){
-                    Rotate(2,-10f);
+                    Rotate(2,-15f);
                 }
             }
             if (GUI.Button(new Rect(x+width+padding,y+height+padding,width,height),"+Y Axis")){
@@ -80,7 +81,7 @@ public class Buttons : MonoBehaviour
                 } else if (selGridInt == 1){
                     Scale(2,0.05f);
                 } else if (selGridInt == 2){
-                    Rotate(2,10f);
+                    Rotate(2,15f);
                 }
             }
             if (GUI.Button(new Rect(x,y+2*height+2*padding,width,height),"-Z Axis")){
@@ -89,7 +90,7 @@ public class Buttons : MonoBehaviour
                 } else if (selGridInt == 1){
                     Scale(3,-0.05f);
                 } else if (selGridInt == 2){
-                    Rotate(3,-10f);
+                    Rotate(3,-15f);
                 }
             }
             if (GUI.Button(new Rect(x+width+padding,y+2*height+2*padding,width,height),"+Z Axis")){
@@ -98,7 +99,7 @@ public class Buttons : MonoBehaviour
                 } else if (selGridInt == 1){
                     Scale(3,0.05f);
                 } else if (selGridInt == 2){
-                    Rotate(3,10f);
+                    Rotate(3,15f);
                 }
             }
             // add ability to scale whole thing
@@ -256,17 +257,15 @@ public class Buttons : MonoBehaviour
     void Rotate(int input,float change){
         GameObject parent = GameObject.Find("newObject");
         Quaternion parent_rotate = parent.transform.rotation;
-        Vector3 euler = parent_rotate.eulerAngles;
-        if (input == 1){
-            euler.x = euler.x + change;
-            parent.transform.rotation = Quaternion.Euler(euler.x, euler.y, euler.z);;
+        if (input == 1){            
+            rotX = (rotX + change)%360;
+            
         } else if (input == 2){
-            euler.y = euler.y + change;
-            parent.transform.rotation = Quaternion.Euler(euler.x, euler.y, euler.z);;
+            rotY = (rotY + change)%360;
         } else {
-            euler.z = euler.z + change;
-            parent.transform.rotation = Quaternion.Euler(euler.x, euler.y, euler.z);;
+            rotZ = (rotZ + change)%360;
         }
+        parent.transform.rotation = Quaternion.Euler(rotX, rotY, rotZ);
     }
 
 }
