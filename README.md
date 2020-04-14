@@ -13,7 +13,7 @@
 ## Background
 Sketch based authoring allows a user to add elements, modify existing elements, and manipulate 3D models using sketches which are automatically rendered as 3D objects.
 
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/example.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/example.png)
 
 The application has four main components
 
@@ -38,19 +38,19 @@ A demo video can be found [here](https://drive.google.com/open?id=1PCnaRNFSCfgyP
 
 ## Results
 ## Example 1
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex1.png)
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex1_3d.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex1.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex1_3d.png)
 ## Example 2
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex2.png)
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex2_3d.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex2.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex2_3d.png)
 ## Example 3
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex3.png)
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex3_3d.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex3.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex3_3d.png)
 ## Example 4
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex4.png)
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex4_3d.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex4.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex4_3d.png)
 ## Example 5
-![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/ex5.png)
+![alt text](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring/blob/master/resources/ex5.png)
 
 Created using the triangle as the side and the square as the front face.
 
