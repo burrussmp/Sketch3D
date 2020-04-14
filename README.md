@@ -6,7 +6,7 @@
 2. Open up unity hub and add project clicking on the folder. Open clicking on the project Unity should resolve the packages and import necessary scripts.
 3. In Unity, open up File/Build Settings/ and switch to Android platform.
 4. In terminal, get the public IP address of the machine (On Ubuntu this can be found with ```ifconfig``` I think it is ```ipconfig``` on Windows devices)
-5. In server.py and in /Assets/AddSketch.cs change the IP addresss to the one discovered in the last command. There is a single line to change in both. Control-F "8080" and you will find the line.
+5. In server.py and in /Assets/AddSketch.cs change the IP addresss to the one discovered in the last command. Control-F "8080" and you will find the lines.
 6. Run ```python3 server.py``` to get the server up and going.
 7. In Unity, click "File/Build and Run" and install the project.apk into the connected Android device.
 
@@ -22,19 +22,19 @@ The application has four main components
 3. Scene Composition: Create the virtual scene
 4. Augment: Augment the virtual scene with the physical properties
 
-## Assignment 2 Accomplishments
+## Project Overview
 
-1. Python server that is able to process 2 drawn images of the front and side face of the geometric object we would like to construct.
+1. Python server that serves content to Android client running the AR application written in Unity.
 
-2. AR application written in Unity to construct the 3D object and communicate to the python server as the client.
+2. AR application captures sketches of front and side of object to construct. Image includes annotations. Currently the following annotations are supported: R (red), G (green), B (blue), H (hollow), clear (C).
 
-3. Button interface to interact with the 3D constructed image (rotate, scale, and translate).
+3. Upon opening the app, 
 
 4. Examples of changing up the side and the front.
 
 
 ## Demo Video
-A demo video can be found [here](https://drive.google.com/drive/folders/1Ye07AEKM2lWnVQWmO6ogAaoMGznK2UzF?usp=sharing)
+A demo video can be found [here](https://drive.google.com/open?id=1PCnaRNFSCfgyPdVELxAi60I-inYgCCyF)
 
 ## Results
 ## Example 1
