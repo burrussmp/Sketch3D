@@ -336,7 +336,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selGridInt: 0
---- !u!21 &1001372438
+  sideCaptured: 0
+  frontCaptured: 0
+  widthTarget: 0
+  heightTarget: 0
+  bboxX: 0
+  bboxY: 0
+  isError: 0
+  mError: 
+--- !u!21 &908784849
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
@@ -345,7 +353,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: 'TargetMaterial
 
-    14098'
+    13604'
   m_Shader: {fileID: 10752, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -364,13 +372,13 @@ Material:
     m_Floats: []
     m_Colors:
     - _Color: {r: 0.82089555, g: 0.82089555, b: 0.82089555, a: 1}
---- !u!43 &1362656102
+--- !u!43 &1649264149
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ImageTargetMesh14088
+  m_Name: ImageTargetMesh13594
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -557,7 +565,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664368958}
-  m_Mesh: {fileID: 1362656102}
+  m_Mesh: {fileID: 1649264149}
 --- !u!23 &1664368960
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -575,7 +583,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 1001372438}
+  - {fileID: 908784849}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -689,7 +697,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inFirst: 0
   inSecond: 0
-  gameObject: {fileID: 0}
+  gameObject: {fileID: 1828401898}
+  smooth: {fileID: 2100000, guid: 15b6763a89b1c036da6429e4d36706c8, type: 2}
+  glass: {fileID: 2100000, guid: 7cea6cfc59e51cbe4b85494fea3b0808, type: 2}
 --- !u!1 &1828401898
 GameObject:
   m_ObjectHideFlags: 0

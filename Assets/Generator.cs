@@ -6,19 +6,20 @@
 // using UnityEngine.UI;
 // using UnityEngine.Networking;
 // using UnityEngine;
-// using System.Collections.Generic;
 // using System;
 // using System.Linq;
-// using System.Collections.Generic;
+
 
 // public class Generator : MonoBehaviour
 // {    // Start is called before the first frame update
 
 //     public List<List<float>> mList;
+//     public Dictionary<string, char> mMap;
 //     public static bool inFirst;
 //     public static bool inSecond;
 //     public static bool detected;
 //     public GameObject gameObject;
+//     public Material smooth, glass;
 //     void Start()
 //     {
 //         StartCoroutine(GetData());
@@ -31,6 +32,29 @@
 //     {
         
 //     }
+
+//     Material parseCharacterTexture(char code){
+//         if (code == 'S'){
+//             return smooth;
+//         } else if (code == 'U') {
+//             return glass;
+//         } else {
+//             return gameObject.GetComponent<Renderer>().material;
+//         }
+//     }
+//     Color parseCharacterColor(char code){
+//         if (code == 'R'){
+//             return Color.red;
+//         } else if (code == 'G'){
+//             return Color.green;
+//         } else if (code == 'B') {
+//             return Color.blue;
+//         } else {
+//             return Color.grey;
+//         }
+//     }
+//     // in the function below, if cur < 4, then we are looking at the top
+//     // else we are creating the sides
 //     IEnumerator CreateMesh(){
 //         while(inFirst)       
 //             yield return new WaitForSeconds(0.1f);
@@ -38,6 +62,10 @@
 //         int cur = 0;
 //         var resources = Resources.FindObjectsOfTypeAll(typeof(Material));
 //         foreach(var face in mList){
+//             if (mMap["special"] == 'H' && cur < 4){
+//                 cur +=2 ;
+//                 continue;
+//             }
 //             int num_of_vertices = Convert.ToInt32(face[face.Count-1]);
 //             Vector2[] vertices2D = new Vector2[num_of_vertices];
 //             int j = 0;
@@ -53,7 +81,6 @@
 //             int[] indices = tr.Triangulate();
 //             Vector3[] vertices = new Vector3[vertices2D.Length];
 //             j =0;
-//             Debug.Log(cur);
 //             for (int i = 0; i < face.Count-1; i=i+3){
 
 //                 if (cur < 4){
@@ -74,9 +101,15 @@
 
 //             GameObject child = new GameObject(Char.ToString(Convert.ToChar(meshID)));
 //             MeshRenderer render = child.AddComponent<MeshRenderer>();
-//             render.materials[0] = gameObject.GetComponent<Renderer>().material;
+                        
+//             if (cur<4){ // get the color of the side
+//                 render.material = parseCharacterTexture(mMap["textureside"]);
+//                 render.material.color = parseCharacterColor(mMap["colorside"]);
+//             } else {
+//                 render.material = parseCharacterTexture(mMap["texturefront"]);
+//                 render.material.color = parseCharacterColor(mMap["colorfront"]);
+//             }
 //             child.transform.parent = gameObject.transform;
-
 //             MeshFilter filter = child.AddComponent<MeshFilter>();
 //             filter.mesh = msh;
 //             cur = cur + 1;
@@ -89,7 +122,14 @@
 
 //             child = new GameObject(Char.ToString(Convert.ToChar(meshID)));
 //             render = child.AddComponent<MeshRenderer>();
-//             render.materials[0] = gameObject.GetComponent<Renderer>().material;
+            
+//             if (cur<4){ // get the color of the side
+//                 render.material = parseCharacterTexture(mMap["textureside"]);
+//                 render.material.color = parseCharacterColor(mMap["colorside"]);
+//             } else {
+//                 render.material = parseCharacterTexture(mMap["texturefront"]);
+//                 render.material.color = parseCharacterColor(mMap["colorfront"]);
+//             }
 //             child.transform.parent = gameObject.transform;
 //             filter = child.AddComponent<MeshFilter>();
 //             filter.mesh = msh;
@@ -120,11 +160,12 @@
 //         inSecond = false;
 //         detected = true;
 //     }
+
 //     IEnumerator GetData() {
 //             inFirst = true;
 //             inSecond = true;
 // 			// Play audio when target is found
-//             UnityWebRequest www = UnityWebRequest.Get("http://10.66.129.3:8080");
+//             UnityWebRequest www = UnityWebRequest.Get("http://10.0.0.118:8080/data");
 // 			yield return www.SendWebRequest();
 
 //             if(www.isNetworkError || www.isHttpError) {
@@ -153,15 +194,33 @@
 //                     myList.Add(Convert.ToSingle(num_samples));
 //                     list.Add(myList);
 //                 }
-//                                 // foreach(var j in list){
-//                 //     foreach(var i in j){
-//                 //         Debug.Log(i);
-//                 //     }
-//                 // }
 //                 mList = list;
-//                 inFirst = false;
 //             }
 
+//             www = UnityWebRequest.Get("http://10.0.0.118:8080/annotation");
+//             yield return www.SendWebRequest();
+
+//             if(www.isNetworkError || www.isHttpError) {
+//                 Debug.Log(www.error);
+//             }
+//             else {
+//                 string inputTextString = www.downloadHandler.text;
+//                 Debug.Log(inputTextString);
+//                 int next = 0;
+//                 int start_prev = 0;
+//                 var Map = new Dictionary<string, char>();
+//                 while (next != -1){
+//                     int start = inputTextString.IndexOf('=',next);
+//                     int num_delimiter = inputTextString.IndexOf(';',start);
+//                     next = inputTextString.IndexOf('=',start+1);
+//                     char value = char.Parse(inputTextString.Substring(start+1,num_delimiter-start-1));
+//                     string key = inputTextString.Substring(start_prev,start-start_prev);
+//                     Map.Add(key,value);
+//                     start_prev = num_delimiter+1;
+//                 }
+//                 mMap = Map;
+//             }
+//             inFirst = false;
 //         }
 //     }
 
@@ -273,3 +332,4 @@
 //         return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 //     }
 // }
+

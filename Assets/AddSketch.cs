@@ -20,6 +20,9 @@ public class AddSketch : MonoBehaviour,
     public GameObject gameObject;
     public static bool detected;
 
+    public Dictionary<string, char> mMap;
+    public Material smooth, glass;
+
     void Start()
     {
 		mTrackableBehaviour = GetComponent<TrackableBehaviour>();
@@ -74,6 +77,28 @@ public class AddSketch : MonoBehaviour,
             Debug.Log(child_gameobject.transform.position);
         }   
     }
+    Material parseCharacterTexture(char code){
+        if (code == 'S'){
+            return smooth;
+        } else if (code == 'U') {
+            return glass;
+        } else {
+            return gameObject.GetComponent<Renderer>().material;
+        }
+    }
+    Color parseCharacterColor(char code){
+        Debug.Log("Character code...");
+        Debug.Log(code);
+        if (code == 'R'){
+            return Color.red;
+        } else if (code == 'G'){
+            return Color.green;
+        } else if (code == 'B') {
+            return Color.blue;
+        } else {
+            return Color.grey;
+        }
+    }
     IEnumerator CreateMesh(){
         while(inFirst)       
             yield return new WaitForSeconds(0.1f);
@@ -82,7 +107,11 @@ public class AddSketch : MonoBehaviour,
         var resources = Resources.FindObjectsOfTypeAll(typeof(Material));
         foreach(var face in mList){
             int num_of_vertices = Convert.ToInt32(face[face.Count-1]);
-            Debug.Log(num_of_vertices);
+            // should we make it hollow?
+            if (mMap["special"] == 'H' && cur < 4){
+                cur +=2 ;
+                continue;
+            }
             Vector2[] vertices2D = new Vector2[num_of_vertices];
             int j = 0;
             Debug.Log(cur);
@@ -119,7 +148,14 @@ public class AddSketch : MonoBehaviour,
 
             GameObject child = new GameObject(Char.ToString(Convert.ToChar(meshID)));
             MeshRenderer render = child.AddComponent<MeshRenderer>();
-            render.materials[0] = gameObject.GetComponent<Renderer>().material;
+
+            if (cur<4){ // get the color of the front
+                render.material = parseCharacterTexture(mMap["texturefront"]);
+                render.material.color = parseCharacterColor(mMap["colorfront"]);
+            } else {
+                render.material = parseCharacterTexture(mMap["textureside"]);
+                render.material.color = parseCharacterColor(mMap["colorside"]);
+            }
             child.transform.parent = gameObject.transform;
 
             MeshFilter filter = child.AddComponent<MeshFilter>();
@@ -134,7 +170,15 @@ public class AddSketch : MonoBehaviour,
 
             child = new GameObject(Char.ToString(Convert.ToChar(meshID)));
             render = child.AddComponent<MeshRenderer>();
-            render.materials[0] = gameObject.GetComponent<Renderer>().material;
+
+            if (cur<4){ // get the color of the front
+                render.material = parseCharacterTexture(mMap["texturefront"]);
+                render.material.color = parseCharacterColor(mMap["colorfront"]);
+            } else {
+                render.material = parseCharacterTexture(mMap["textureside"]);
+                render.material.color = parseCharacterColor(mMap["colorside"]);
+            }
+
             child.transform.parent = gameObject.transform;
             filter = child.AddComponent<MeshFilter>();
             filter.mesh = msh;
@@ -165,47 +209,69 @@ public class AddSketch : MonoBehaviour,
         inSecond = false;
     }
     IEnumerator GetData() {
-            inFirst = true;
-            inSecond = true;
-			// Play audio when target is found
-            UnityWebRequest www = UnityWebRequest.Get("http://10.0.0.118:8080");
-			yield return www.SendWebRequest();
+        inFirst = true;
+        inSecond = true;
+        // Play audio when target is found
+        UnityWebRequest www = UnityWebRequest.Get("http://10.0.0.118:8080/data");
+        yield return www.SendWebRequest();
 
-            Debug.Log(www.responseCode);
-            if(www.isNetworkError || www.isHttpError || www.responseCode == 500) {
-                GameObject myObject = GameObject.Find("ARCamera");
-                myObject.GetComponent<Buttons>().showError("Need to Capture Front and Side!");
-                yield return new WaitForSeconds(3);
-                myObject.GetComponent<Buttons>().clearError();
-            }
-            else {
-                // Show results as text
-                Debug.Log(www.downloadHandler.text);
-                string inputTextString = www.downloadHandler.text;
-                int next = 0;
-                var list = new List<List<float>>();
-                while (next != -1){
-                    int start = inputTextString.IndexOf('N',next);
-                    int num_delimiter = inputTextString.IndexOf(',',start);
-                    next = inputTextString.IndexOf('N',start+1);
-                    int num_samples = Int16.Parse(inputTextString.Substring(start+1,num_delimiter-start-1));
-                    string sub_input;
-                    if (next != -1){
-                        sub_input = inputTextString.Substring(num_delimiter+1,next-num_delimiter-1);
-                    } else {
-                        sub_input = inputTextString.Substring(num_delimiter+1,inputTextString.Length-num_delimiter-1);
-                    }
-                    sub_input = sub_input.Replace("[","");
-                    sub_input = sub_input.Replace("]","");
-                    var myList = sub_input.Split(',').Select(Convert.ToSingle).ToList();
-                    myList.Add(Convert.ToSingle(num_samples));
-                    list.Add(myList);
-                }
-                mList = list;
-                inFirst = false;
-            }
-
+        Debug.Log(www.responseCode);
+        if(www.isNetworkError || www.isHttpError || www.responseCode == 500) {
+            GameObject myObject = GameObject.Find("ARCamera");
+            myObject.GetComponent<Buttons>().showError("Need to Capture Front and Side!");
+            yield return new WaitForSeconds(3);
+            myObject.GetComponent<Buttons>().clearError();
         }
+        else {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+            string inputTextString = www.downloadHandler.text;
+            int next = 0;
+            var list = new List<List<float>>();
+            while (next != -1){
+                int start = inputTextString.IndexOf('N',next);
+                int num_delimiter = inputTextString.IndexOf(',',start);
+                next = inputTextString.IndexOf('N',start+1);
+                int num_samples = Int16.Parse(inputTextString.Substring(start+1,num_delimiter-start-1));
+                string sub_input;
+                if (next != -1){
+                    sub_input = inputTextString.Substring(num_delimiter+1,next-num_delimiter-1);
+                } else {
+                    sub_input = inputTextString.Substring(num_delimiter+1,inputTextString.Length-num_delimiter-1);
+                }
+                sub_input = sub_input.Replace("[","");
+                sub_input = sub_input.Replace("]","");
+                var myList = sub_input.Split(',').Select(Convert.ToSingle).ToList();
+                myList.Add(Convert.ToSingle(num_samples));
+                list.Add(myList);
+            }
+            mList = list;
+        }
+        www = UnityWebRequest.Get("http://10.0.0.118:8080/annotation");
+        yield return www.SendWebRequest();
+
+        if(www.isNetworkError || www.isHttpError) {
+            Debug.Log(www.error);
+        }
+        else {
+            string inputTextString = www.downloadHandler.text;
+            Debug.Log(inputTextString);
+            int next = 0;
+            int start_prev = 0;
+            var Map = new Dictionary<string, char>();
+            while (next != -1){
+                int start = inputTextString.IndexOf('=',next);
+                int num_delimiter = inputTextString.IndexOf(';',start);
+                next = inputTextString.IndexOf('=',start+1);
+                char value = char.Parse(inputTextString.Substring(start+1,num_delimiter-start-1));
+                string key = inputTextString.Substring(start_prev,start-start_prev);
+                Map.Add(key,value);
+                start_prev = num_delimiter+1;
+            }
+            mMap = Map;
+        }
+        inFirst = false;
+    }
     private Texture2D MakeTex( int width, int height, Color col )
     {
         Color[] pix = new Color[width * height];
@@ -218,7 +284,7 @@ public class AddSketch : MonoBehaviour,
         result.Apply();
         return result;
     }
-    }
+}
 
 
 
