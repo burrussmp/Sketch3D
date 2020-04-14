@@ -5,15 +5,16 @@ from matplotlib import pyplot as plt
 
 
 def normalize(hulls):
-    #hulls = np.concatenate((hull1,hull2),axis=0)
     MIN = np.min(hulls,axis=0)
     MAX = np.max(hulls,axis=0)
-    return np.divide(hulls-MIN,MAX-MIN)
+    normalized = np.divide(hulls-MIN,MAX-MIN)
+    normalized = np.round(normalized,3)
+    return normalized
 
-def calculate_hull(img):
+def calculate_hull(img,sensitivity=0.25):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     gray = np.float32(gray)
-    corners = cv2.goodFeaturesToTrack(gray, 100, 0.2, 10)
+    corners = cv2.goodFeaturesToTrack(gray, 100, sensitivity, 10)
     corners = np.int0(corners)
     hull = cv2.convexHull(corners)
     return hull
@@ -92,7 +93,6 @@ def construct_faces(hull_top,hull_back):
 
         # check y center of gravity
         if (points_cm[1] < center_of_mass[1]):
-            print('Less than')
             faces.append(reverse(points.tolist()))
         else:
             faces.append(points.tolist())
@@ -105,6 +105,7 @@ def scale_down_faces(faces):
         for j in range(len(faces[i])):
             face_arr = np.array(faces[i][j])
             face_arr *= 0.05
+            # face_arr = np.round(face_arr,3)
             faces[i][j] = face_arr.tolist()
     return faces
 
