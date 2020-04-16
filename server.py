@@ -43,9 +43,11 @@ class Processor():
             message += '1'
         else:
             message += '0'
+        print('message',message)
         return message
 
     def set_image(self,type,img):
+        print('setting img:',img is not None)
         if type == 'Side':
             self.side = img
         elif type == 'Front':
@@ -178,7 +180,7 @@ class Processor():
                     self.set_mask(typeOfImage,mask)
                     self.updateMaterial(typeOfImage,prediction)
                 else:
-                    self.clearMaterial(typeOfImage)
+                    self.set_mask(typeOfImage,None)
             else:
                 self.clearMaterial(typeOfImage)
             
