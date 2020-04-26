@@ -279,6 +279,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
 processor = Processor()
 if __name__ == '__main__':
     HOST_NAME = "YOURIPADDRESS"
+    PORT_NUMBER = 8080
     httpd = socketserver.TCPServer((HOST_NAME, PORT_NUMBER), Handler)
     print(time.asctime(), "Server Starts - %s:%s" % (HOST_NAME, PORT_NUMBER))
     try:
