@@ -18,6 +18,8 @@ If you would like to see the google colab notebook used to train this model, tha
 
 For an in-depth look at getting started with Unity and properly setting up the image target which is where the 3D object is reconstructed, please see this medium article that I wrote [here](https://medium.com/@matthew.p.burruss/part-1-sketch3d-turn-your-drawing-into-an-augmented-reality-3d-object-480dae28c0d8).
 
+For an in-depth description of the Python server and AR Android application code, please see this [Medium article](https://github.com/burrussmp/Augmented-Reality-Sketch-Authoring).
+
 ## Demo Video
 A demo video can be found [here](https://drive.google.com/open?id=1PCnaRNFSCfgyPdVELxAi60I-inYgCCyF)
 
